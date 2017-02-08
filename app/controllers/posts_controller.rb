@@ -6,6 +6,7 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+
   def create
     @group = Group.find(params[:group_id])
     @post = Post.new(post_params)
@@ -19,10 +20,34 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+  end
+
+  def destroy
+    @group =Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    @post.destroy
+    flash[:alert] = "Post deleted"
+
+    redirect_to group_path(@group)
+  end
+
+  def update
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    @post.update(post_params)
+    flash[:notice] = "Update success"
+
+    redirect_to group_path(@group)
+  end
+
+
   private
 
   def post_params
     params.require(:post).permit(:content)
   end
-  
+
 end
